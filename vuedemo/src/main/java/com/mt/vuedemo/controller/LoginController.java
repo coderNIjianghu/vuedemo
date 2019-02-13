@@ -36,4 +36,5 @@ public class LoginController {
         }
         return ResultFactory.buildSuccessResult("登陆成功。");
     }
+
 }
