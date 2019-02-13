@@ -15,6 +15,7 @@ import BlogHeader from './BlogHeader'
 import BlogFooter from './BlogFooter'
 export default {
   name: 'BlogIndex',
+  components: { BlogHeader, BlogFooter},
   comments: { BlogHeader, BlogFooter }
 }
 </script>
