@@ -8,7 +8,7 @@
   密码：<input type="password" v-model="loginInfoVo.password" placeholder="请输入密码">
   <br/>
     <button v-on:click="login">登录</button>
-    登录验证情况：<textarea cols ="30" rows="10" v-model = "responserResult"></textarea></div>
+    登录验证情况：<textarea cols ="30" rows="10" v-model = "responseResult"></textarea></div>
   <blog-footer></blog-footer>
   </div>
 
@@ -23,7 +23,7 @@ export default {
   data () {
     return {
       loginInfoVo: { username: '', password: '' },
-      responserResult: []
+      responseResult: []
     }
   },
   methods: {
@@ -36,8 +36,6 @@ export default {
         .then(successResponse => {
           this.responseResult = JSON.stringify(successResponse.data)
           if (successResponse.data.code === 200) {
-            this.data = successResponse.data;
-            console.log(successResponse.data)
             this.$router.replace({path: '/index'})
           }
         })
