@@ -1,8 +1,9 @@
 
 <template>
+  <div>
   <el-table
     :data="tableData"
-    style="width: 100%">
+    style="width: 60%">
     <el-table-column
       prop="id"
       label="序号"
@@ -20,12 +21,17 @@
     <el-table-column
       fixed="right"
       label="操作"
-      width="100">
+      width="150">
       <template slot-scope="scope">
         <el-button type="text" @click="open6(scope.row)" size="small">删除</el-button>
+        <el-button type="text" @click="open1(true,scope.row.id)" size="small">修改</el-button>
       </template>
     </el-table-column>
   </el-table>
+
+<div @click="open1(false)" id="id1">添加</div>
+  </div>
+
 </template>
 
 
@@ -89,6 +95,12 @@ export default {
                 : '停留在当前页面'
             })
           });
+      },
+      open1 (isUpdate,rowId) {
+        //传对象
+        // row['isUpdate']=isUpdate;
+        // this.$router.push({path: '/add',query:row});
+        this.$router.push({path: '/add',query:{isUpdate:isUpdate,rowId:rowId}});
       }
   }
 }
@@ -96,4 +108,12 @@ export default {
 </script>
 
 <style scoped>
+  #id1 {
+    float: left;
+    margin-top: 10px;
+    color: cornflowerblue;
+  }
+  #id1:hover {
+    color: #2c3e50;
+  }
 </style>

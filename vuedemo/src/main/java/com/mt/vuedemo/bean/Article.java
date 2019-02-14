@@ -1,14 +1,15 @@
 package com.mt.vuedemo.bean;
 
+import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 public class Article {
     private Integer id;
-
+    @NotNull(message = "文章 姓名不能为空")
     private String articlename;
 
     private String articledesc;
-
+    @NotNull(message = "文章 作者不能为空")
     private String articleauthor;
 
     private Integer idtopping;

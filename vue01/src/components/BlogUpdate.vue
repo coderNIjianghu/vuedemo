@@ -1,15 +1,98 @@
 <template>
-  名称：<input type = "text" v-model="articleName" placeholder="请输入文章名称"/>
-  <br/>
-  作者：<input type="password" v-model="authorName" placeholder="请输入作者姓名">
-  <br/>
-  <button v-on:click="updateClick(articleName,authorName)">保存修改</button>
+  <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm">
+    <el-form-item label="文章名称" prop="name">
+      <el-input v-model="ruleForm.name"></el-input>
+    </el-form-item>
+    <el-form-item label="文章作者" prop="authorName">
+      <el-input v-model="ruleForm.authorName"></el-input>
+    </el-form-item>
+    <!--<el-form-item label="文章类型" prop="region">-->
+      <!--<el-select v-model="ruleForm.region" placeholder="请选择文章类型">-->
+        <!--<el-option label="原创" value="shanghai"></el-option>-->
+        <!--<el-option label="转载" value="beijing"></el-option>-->
+      <!--</el-select>-->
+    <!--</el-form-item>-->
+    <!--<el-form-item label="是否置顶" prop="delivery">-->
+      <!--<el-switch v-model="ruleForm.delivery"></el-switch>-->
+    <!--</el-form-item>-->
+    <el-form-item>
+      <el-button type="primary" @click="submitForm('ruleForm',ruleForm)" v-if="isUpdate">
+        更新修改</el-button>
+      <el-button type="primary" @click="submitForm('ruleForm',ruleForm)" v-else>
+        立即创建</el-button>
+      <el-button @click="resetForm('ruleForm')">重置</el-button>
+    </el-form-item>
+  </el-form>
 </template>
 
 <script>
 export default {
   name: 'BlogUpdate',
-  data:{
+  data() {
+    return {
+      isUpdate: '',
+      ruleForm: {
+        name: '',
+        authorName: '',
+        region: '',
+        delivery: false
+      },
+      rules: {
+        name: [
+          { required: true, message: '请输入文章名称', trigger: 'blur' },
+          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+        ],
+        authorName: [
+          { required: true, message: '请输入文章作者', trigger: 'blur' },
+          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+        ],
+        region: [
+          { required: true, message: '请选择文章类型', trigger: 'change' }
+        ]
+      }
+    };
+
+  },
+  mounted:function () {
+    this.isUpdateTrue();
+  },
+  methods: {
+    submitForm(formName,ruleForm) {
+      console.log(ruleForm)
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert('submit!');
+          this.$axios
+            .post('/addArticle',{
+              articlename :ruleForm.name,
+              articleauthor: ruleForm.authorName
+            })
+            .then(successResponse =>{
+              alert('submit success!');
+            })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    resetForm(formName) {
+      this.$refs[formName].resetFields();
+    },
+    isUpdateTrue() {
+      this.isUpdate=this.$route.query.isUpdate;
+      let rowId = this.$route.query.rowId;
+      if (rowId != undefined && rowId != '' && rowId != null){
+        this.$axios.get('/getArticleById',{
+          params: {
+            id:rowId
+          }
+        }).then(successResponse =>{
+          this.ruleForm.name =successResponse.data.data.articlename;
+          this.ruleForm.authorName = successResponse.data.data.articleauthor;
+        })
+      }
+    }
   }
 }
 </script>

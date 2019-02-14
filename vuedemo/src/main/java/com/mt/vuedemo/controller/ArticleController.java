@@ -33,10 +33,25 @@ public class ArticleController {
     public Result getArticleList(){
         return articleService.getArticleList();
     }
+    /**
+     * @Author cui
+     * @Description  删除
+     * @Date 11:35 2019/2/14 0014
+     * @param id
+     * @return com.mt.vuedemo.result.Result
+     **/
     @GetMapping("/deleteById")
     public Result deleteById( Integer id){
         return articleService.deleteById(id);
     }
+    /**
+     * @Author cui
+     * @Description  添加
+     * @Date 11:35 2019/2/14 0014
+     * @param article
+     * @param bindingResult
+     * @return com.mt.vuedemo.result.Result
+     **/
     @PostMapping("/addArticle")
     public Result addArticle(@Valid @RequestBody Article article, BindingResult bindingResult){
         if (bindingResult.hasErrors()) {
@@ -44,5 +59,16 @@ public class ArticleController {
             return ResultFactory.buildFailResult(message);
         }
         return articleService.addArticle(article);
+    }
+    /**
+     * @Author cui
+     * @Description 根据id查询
+     * @Date 11:37 2019/2/14 0014
+     * @param id
+     * @return com.mt.vuedemo.result.Result
+     **/
+    @GetMapping("/getArticleById")
+    public Result getArticleById(Integer id){
+        return articleService.getArticleById(id);
     }
 }

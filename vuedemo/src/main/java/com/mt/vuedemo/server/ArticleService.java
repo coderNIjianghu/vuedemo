@@ -7,7 +7,9 @@ import com.mt.vuedemo.dao.ArticleMapper;
 import com.mt.vuedemo.result.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,10 +24,32 @@ public class ArticleService {
     public Result getArticleList() {
         ArticleExample example = new ArticleExample();
         example.createCriteria().andIdIsNotNull();
-        List<Article> articles = articleMapper.selectByExample(example);
-        articles.forEach(a->{
-            System.out.println(a.getArticlename());
-        });
-        return ResultFactory.buildSuccessResult(articles);
+        return ResultFactory.buildSuccessResult(articleMapper.selectByExample(example));
+    }
+
+    public Result deleteById(Integer id) {
+        Assert.notNull(id,"id为空");
+        int i = articleMapper.deleteByPrimaryKey(id);
+        return commonResult(i,"删除");
+    }
+
+    public Result addArticle(Article article) {
+        article.setCreatetime(new Date());
+        int i = articleMapper.insertSelective(article);
+        return commonResult(i,"添加");
+    }
+
+    public Result commonResult(int i,String msg){
+        if (i==1){
+            return ResultFactory.buildSuccessResult(msg+"成功");
+        }else {
+            return ResultFactory.buildSuccessResult(msg+"失败");
+        }
+    }
+
+    public Result getArticleById(Integer id) {
+        Assert.notNull(id,"id为空");
+        return ResultFactory.buildSuccessResult( articleMapper.selectByPrimaryKey(id));
+
     }
 }
