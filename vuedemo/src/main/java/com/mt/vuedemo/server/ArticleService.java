@@ -52,4 +52,9 @@ public class ArticleService {
         return ResultFactory.buildSuccessResult( articleMapper.selectByPrimaryKey(id));
 
     }
+
+    public Result updateArticle(Article article) {
+        int i = articleMapper.updateByPrimaryKeySelective(article);
+        return commonResult(i,"修改");
+    }
 }

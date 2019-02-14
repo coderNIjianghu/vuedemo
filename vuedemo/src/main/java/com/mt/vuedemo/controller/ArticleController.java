@@ -71,4 +71,20 @@ public class ArticleController {
     public Result getArticleById(Integer id){
         return articleService.getArticleById(id);
     }
+    /**
+     * @Author cui
+     * @Description  修改
+     * @Date 11:55 2019/2/14 0014 
+     * @param article
+     * @param bindingResult
+     * @return com.mt.vuedemo.result.Result
+     **/
+    @PostMapping("/updateArticle")
+    public Result updateArticle(@Valid @RequestBody Article article, BindingResult bindingResult){
+        if (bindingResult.hasErrors()) {
+            String message = String.format("修改失败，详细信息[%s]。", bindingResult.getFieldError().getDefaultMessage());
+            return ResultFactory.buildFailResult(message);
+        }
+        return articleService.updateArticle(article);
+    }
 }
