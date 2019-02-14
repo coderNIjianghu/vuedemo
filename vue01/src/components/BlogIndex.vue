@@ -3,7 +3,7 @@
   <div>
   <el-table
     :data="tableData"
-    style="width: 60%">
+    style="width: 100%">
     <el-table-column
       prop="id"
       label="序号"
@@ -28,8 +28,7 @@
       </template>
     </el-table-column>
   </el-table>
-
-<div @click="open1(false)" id="id1">添加</div>
+    <el-button type="primary" @click="open1(false)" id="id1">添加</el-button>
   </div>
 
 </template>
@@ -82,7 +81,7 @@ export default {
         })
           .then(() => {
             this.$message({
-              type: 'info',
+              type: 'success',
               message: '删除成功',
             });
             this.deleteClick(_row)
@@ -92,7 +91,7 @@ export default {
               type: 'info',
               message: action === 'cancel'
                 ? '操作取消'
-                : '停留在当前页面'
+                : '操作关闭'
             })
           });
       },
@@ -109,11 +108,7 @@ export default {
 
 <style scoped>
   #id1 {
-    float: left;
-    margin-top: 10px;
-    color: cornflowerblue;
-  }
-  #id1:hover {
-    color: #2c3e50;
+    float: right;
+    margin:10px  70px;
   }
 </style>
