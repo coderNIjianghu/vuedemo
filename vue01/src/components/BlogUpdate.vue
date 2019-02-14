@@ -16,7 +16,7 @@
       <!--<el-switch v-model="ruleForm.delivery"></el-switch>-->
     <!--</el-form-item>-->
     <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm',ruleForm)" v-if="isUpdate">
+      <el-button type="primary" @click="updateForm('ruleForm',ruleForm)" v-if="isUpdate">
         更新修改</el-button>
       <el-button type="primary" @click="submitForm('ruleForm',ruleForm)" v-else>
         立即创建</el-button>
@@ -40,11 +40,11 @@ export default {
       rules: {
         name: [
           { required: true, message: '请输入文章名称', trigger: 'blur' },
-          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+          { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
         ],
         authorName: [
           { required: true, message: '请输入文章作者', trigger: 'blur' },
-          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+          { min: 1, max: 15, message: '长度在 1 到 15 个字符', trigger: 'blur' }
         ],
         region: [
           { required: true, message: '请选择文章类型', trigger: 'change' }
@@ -68,7 +68,37 @@ export default {
               articleauthor: ruleForm.authorName
             })
             .then(successResponse =>{
-              alert('submit success!');
+              this.$message({
+                message: '添加成功',
+                type: 'success'
+              });
+              this.$router.push({path: '/index'});
+              // alert('submit success!');
+            })
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
+    },
+    updateForm(formName,ruleForm) {
+      console.log(ruleForm)
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          // alert('submit!');
+          this.$axios
+            .post('/updateArticle',{
+              id:this.$route.query.rowId,
+              articlename :ruleForm.name,
+              articleauthor: ruleForm.authorName
+            })
+            .then(successResponse =>{
+              //alert('update success!');
+              this.$message({
+                message: '修改成功',
+                type: 'success'
+              });
+              this.$router.push({path: '/index'});
             })
         } else {
           console.log('error submit!!');
