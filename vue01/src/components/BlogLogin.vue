@@ -2,13 +2,15 @@
   <div>
       <blog-header></blog-header>
       <hr/>
-  <div>
+  <div >
   用户名：<input type = "text" v-model="loginInfoVo.username" placeholder="请输入用户名"/>
   <br/>
   密码：<input type="password" v-model="loginInfoVo.password" placeholder="请输入密码">
   <br/>
     <button v-on:click="login">登录</button>
-    登录验证情况：<textarea cols ="30" rows="10" v-model = "responseResult"></textarea></div>
+    <br/>
+    <br/>
+    登录验证情况：<textarea cols ="30" rows="3" v-model = "responseResult"></textarea></div>
   <blog-footer></blog-footer>
   </div>
 
@@ -19,7 +21,7 @@ import BlogHeader from './BlogHeader'
 import BlogFooter from './BlogFooter'
 export default {
   name: 'BlogLogin',
-  components: {BlogFooter, BlogHeader},
+  components: {BlogFooter, BlogHeader },
   data () {
     return {
       loginInfoVo: { username: '', password: '' },
@@ -37,6 +39,7 @@ export default {
           this.responseResult = JSON.stringify(successResponse.data)
           if (successResponse.data.code === 200) {
             this.$router.replace({path: '/index'})
+
           }
         })
         .catch(failResponse => {})

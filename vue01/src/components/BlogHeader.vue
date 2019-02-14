@@ -1,6 +1,6 @@
 <template>
     <div>
-      页面头部
+      <!--页面头部-->
     </div>
 </template>
 <script>
